@@ -9,60 +9,59 @@ screen_height = 800
 screen = pg.display.set_mode((screen_width, screen_height))
 
 clock = pg.time.Clock()
-
-font = 'fonts/main_font.ttf'
+font = "fonts/main_font.ttf"
 font_large = pg.font.Font(font, 48)
 font_small = pg.font.Font(font, 24)
 
-game_over = False
-win_text = font_small.render('YOU ARE WIN!', True, (255, 255, 255))
+win_text = font_small.render("YOU ARE WIN!", True, (255, 255, 255))
 win_rect = win_text.get_rect()
 win_rect.midtop = (screen_width // 2, screen_height // 2)
 
-retry_text = font_small.render('PRESS F TO RESTART', True, (0, 0, 0))
+retry_text = font_small.render("PRESS F TO RESTART", True, (0, 0, 0))
 retry_rect = retry_text.get_rect()
 retry_rect.midtop = (screen_width // 2, screen_height // 2)
 
-icon = pg.image.load('icon/icong.png')
+icon = pg.image.load("icon/icong.png")
 pg.display.set_icon(icon)
 
-resume_butt = pg.image.load('images/buttons/Resume_Button.png')
-bg_menu = pg.image.load('images/buttons/bg_menu.jpg')
+bg_menu = pg.image.load("images/buttons/bg_menu.jpg")
 bg_menu = pg.transform.scale(bg_menu, (screen_width, screen_height))
 
-music_kit = ['music/StreetKnights.mp3',
-             'music/The_Lonely_Keyboard_Princess.mp3',
-             'music/What_Good_is_Honor.mp3']
+music_kit = [
+    "music/StreetKnights.ogg",
+    "music/The_Lonely_Keyboard_Princess.ogg",
+    "music/What_Good_is_Honor.ogg",
+]
 current_sound = pg.mixer.Sound(music_kit[0])
 current_sound.play()
 current_sound.set_volume(0.05)
 
-enemy_image = pg.image.load('images/Enemy_1/idle/right/1.png')
+enemy_image = pg.image.load("images/Enemy_1/idle/right/1.png")
 enemy_image = pg.transform.scale(enemy_image, (110, 140))
 
-enemy_dead_image = pg.image.load('images/Enemy_1/Dead/5.png')
+enemy_dead_image = pg.image.load("images/Enemy_1/Dead/5.png")
 enemy_dead_image = pg.transform.scale(enemy_dead_image, (80, 80))
 
-ghost_image = pg.image.load('images/Enemy_2/idle/right/0.png')
+ghost_image = pg.image.load("images/Enemy_2/idle/right/0.png")
 ghost_image = pg.transform.scale(ghost_image, (100, 80))
 
-ghost_dead_image = pg.image.load('images/Enemy_2/dead/right/0.png')
+ghost_dead_image = pg.image.load("images/Enemy_2/dead/right/0.png")
 ghost_dead_image = pg.transform.scale(ghost_dead_image, (80, 80))
 
-player_image = pg.image.load('images/Player/Idle/Right/(right)adventurer-idle-2-00.png')
+player_image = pg.image.load("images/Player/Idle/Right/(right)adventurer-idle-2-00.png")
 player_image = pg.transform.scale(player_image, (60, 95))
 
 platform_image = pg.image.load("blocks/block_purple.png")
 platform_image = pg.transform.scale(platform_image, (50, 50))
 
-stone_image = pg.image.load('blocks/block_stone.png')
+stone_image = pg.image.load("blocks/block_stone.png")
 stone_image = pg.transform.scale(stone_image, (50, 50))
 
 
 class Menu:
     def __init__(self, punkts=None):
         if punkts is None:
-            punkts = [120, 140, 'Punkt', (250, 30, 30), (250, 250, 30), 1]
+            punkts = [120, 140, "Punkt", (250, 30, 30), (250, 250, 30), 1]
         self.punkts = punkts
         self.currently_level = 0
 
@@ -75,7 +74,7 @@ class Menu:
 
     def menu(self):
         done = True
-        font_menu = pg.font.Font('fonts/main_font.ttf', 50)
+        font_menu = pg.font.Font("fonts/main_font.ttf", 50)
         punkt = 0
         flag_1 = True
         while done:
@@ -83,7 +82,9 @@ class Menu:
 
             mp = pg.mouse.get_pos()
             for i in self.punkts:
-                if mp[0] > i[0] and mp[0] < i[0] + 155 and mp[1] > i[1] and mp[1] < i[1] + 50:
+                if (
+                    mp[0] > i[0] and mp[0] < i[0] + 155 and mp[1] > i[1] and mp[1] < i[1] + 50
+                ):
                     punkt = i[5]
             self.render(screen, font_menu, punkt)
 
@@ -107,24 +108,68 @@ class Menu:
 
                     if punkt == 1:
                         done = False
-                        punkts.append((screen_width // 2 + 200,
-                                       screen_height // 2 + 100, 'selected', (249, 6, 27), (249, 6, 27), 4))
-                        if (screen_width // 2 + 200,
-                        screen_height // 2 + 200, 'selected', (249, 6, 27), (249, 6, 27), 4) in punkts:
-                            punkts.remove((screen_width // 2 + 200,
-                                       screen_height // 2 + 200, 'selected', (249, 6, 27), (249, 6, 27), 4))
+                        punkts.append(
+                            (
+                                screen_width // 2 + 200,
+                                screen_height // 2 + 100,
+                                "selected",
+                                (249, 6, 27),
+                                (249, 6, 27),
+                                4,
+                            )
+                        )
+                        if (
+                            screen_width // 2 + 200,
+                            screen_height // 2 + 200,
+                            "selected",
+                            (249, 6, 27),
+                            (249, 6, 27),
+                            4,
+                        ) in punkts:
+                            punkts.remove(
+                                (
+                                    screen_width // 2 + 200,
+                                    screen_height // 2 + 200,
+                                    "selected",
+                                    (249, 6, 27),
+                                    (249, 6, 27),
+                                    4,
+                                )
+                            )
                         self.currently_level = 1
                         flag_1 = True
                         player.is_dead = True
 
                     if punkt == 2:
-                        punkts.append((screen_width // 2 + 200,
-                                       screen_height // 2 + 200, 'selected', (249, 6, 27), (249, 6, 27), 4))
-                        if (screen_width // 2 + 200, screen_height // 2 + 100,
-                            'selected', (249, 6, 27), (249, 6, 27), 4) in punkts:
+                        punkts.append(
+                            (
+                                screen_width // 2 + 200,
+                                screen_height // 2 + 200,
+                                "selected",
+                                (249, 6, 27),
+                                (249, 6, 27),
+                                4,
+                            )
+                        )
+                        if (
+                            screen_width // 2 + 200,
+                            screen_height // 2 + 100,
+                            "selected",
+                            (249, 6, 27),
+                            (249, 6, 27),
+                            4,
+                        ) in punkts:
 
-                            punkts.remove((screen_width // 2 + 200,
-                                           screen_height // 2 + 100, 'selected', (249, 6, 27), (249, 6, 27), 4))
+                            punkts.remove(
+                                (
+                                    screen_width // 2 + 200,
+                                    screen_height // 2 + 100,
+                                    "selected",
+                                    (249, 6, 27),
+                                    (249, 6, 27),
+                                    4,
+                                )
+                            )
                         self.currently_level = 2
                         flag_1 = False
                         player.is_dead = True
@@ -143,9 +188,11 @@ class Platform:
     def draw(self, surface):
         surface.blit(self.image, self.rect)
 
+
 platforms = []
 platform_width = 50
 platform_height = 50
+
 
 class Entity:
     def __init__(self, image):
@@ -181,7 +228,10 @@ class Entity:
 
     def handle_input(self):
         for platform in platforms:
-            if self.rect.colliderect(platform.rect) and self.rect.bottom <= platform.rect.bottom:
+            if (
+                self.rect.colliderect(platform.rect)
+                and self.rect.bottom <= platform.rect.bottom
+            ):
                 self.is_grounded = True
                 self.up = False
                 self.y_speed = 0
@@ -281,37 +331,41 @@ class Player(Entity):
         self.rect.x += self.x_speed
 
         if self.right:
-            file = 'right'
+            file = "right"
             sword_rect = pg.Rect(
                 self.rect.x + self.sword_offset_x,
                 self.rect.y + self.sword_offset_y,
                 self.sword_width,
-                self.sword_height
+                self.sword_height,
             )
         elif self.left:
-            file = 'left'
+            file = "left"
             sword_rect = pg.Rect(
                 self.rect.x - self.sword_offset_x,
                 self.rect.y - self.sword_offset_y,
                 self.sword_width,
-                self.sword_height
+                self.sword_height,
             )
         if not self.up and not self.attack:
             if self.go:
                 self.frame += 0.2
                 if self.frame > 5:
                     self.frame -= 5
-                run = ['adventurer-run-00.png',
-                       'adventurer-run-01.png',
-                       'adventurer-run-02.png',
-                       'adventurer-run-03.png',
-                       'adventurer-run-04.png',
-                       'adventurer-run-05.png']
-                self.image = pg.image.load('images/Player/Run/' + file + '/' + run[int(self.frame)])
+                run = [
+                    "adventurer-run-00.png",
+                    "adventurer-run-01.png",
+                    "adventurer-run-02.png",
+                    "adventurer-run-03.png",
+                    "adventurer-run-04.png",
+                    "adventurer-run-05.png",
+                ]
+                self.image = pg.image.load(
+                    "images/Player/Run/" + file + "/" + run[int(self.frame)]
+                )
                 self.image = pg.transform.scale(self.image, (100, 100))
 
             else:
-                idle = 'images/Player/Idle/Right/(right)adventurer-idle-2-00.png'
+                idle = "images/Player/Idle/Right/(right)adventurer-idle-2-00.png"
                 self.image = pg.image.load(idle)
                 self.image = pg.transform.scale(self.image, (100, 100))
 
@@ -319,10 +373,14 @@ class Player(Entity):
             self.frame_jump += 2
             if self.frame_jump > 2:
                 self.frame_jump -= 2
-            jump = ['adventurer-crnr-jmp-00.png',
-                    'adventurer-crnr-jmp-01.png',
-                    'adventurer-crnr-jmp-02.png']
-            self.image = pg.image.load('images/Player/Jump/' + file + '/' + jump[int(self.frame_jump)])
+            jump = [
+                "adventurer-crnr-jmp-00.png",
+                "adventurer-crnr-jmp-01.png",
+                "adventurer-crnr-jmp-02.png",
+            ]
+            self.image = pg.image.load(
+                "images/Player/Jump/" + file + "/" + jump[int(self.frame_jump)]
+            )
             self.image = pg.transform.scale(self.image, (100, 100))
 
         else:
@@ -337,12 +395,19 @@ class Player(Entity):
                     self.attack = False
                     self.frame_attack = 0
 
-                attack_player = ['adventurer-attack2-00.png',
-                                 'adventurer-attack2-01.png',
-                                 'adventurer-attack2-02.png',
-                                 'adventurer-attack2-03.png',
-                                 'adventurer-attack2-04.png']
-                self.image = pg.image.load('images/Player/Attack/' + file + "/" + attack_player[int(self.frame_attack)])
+                attack_player = [
+                    "adventurer-attack2-00.png",
+                    "adventurer-attack2-01.png",
+                    "adventurer-attack2-02.png",
+                    "adventurer-attack2-03.png",
+                    "adventurer-attack2-04.png",
+                ]
+                self.image = pg.image.load(
+                    "images/Player/Attack/"
+                    + file
+                    + "/"
+                    + attack_player[int(self.frame_attack)]
+                )
                 self.image = pg.transform.scale(self.image, (100, 100))
 
 
@@ -381,25 +446,39 @@ class Enemy_1(Entity):
                 self.distance = 0
 
         if self.right_enemy:
-            file_enemy = 'right/'
+            file_enemy = "right/"
         elif self.left_enemy:
-            file_enemy = 'left/'
+            file_enemy = "left/"
 
         if self.go_enemy:
             self.frame_enemy += 0.5
             if self.frame_enemy > 4:
                 self.frame_enemy -= 4
 
-            run_enemy = ['1.png', '2.png', '3.png', '4.png', '5.png']
-            self.image = pg.image.load('images/Enemy_1/Run/' + file_enemy + run_enemy[int(self.frame_enemy)])
+            run_enemy = ["1.png", "2.png", "3.png", "4.png", "5.png"]
+            self.image = pg.image.load(
+                "images/Enemy_1/Run/" + file_enemy + run_enemy[int(self.frame_enemy)]
+            )
             self.image = pg.transform.scale(self.image, (170, 180))
         else:
             if self.frame_enemy > 8:
                 return
             self.frame_enemy += 0.1
 
-            dead_enemy = ['1.png', '2.png', '3.png', '4.png', '5.png', '6.png', '7.png', '8.png', '9.png']
-            self.image = pg.image.load('images/Enemy_1/Dead/' + dead_enemy[int(self.frame_enemy)])
+            dead_enemy = [
+                "1.png",
+                "2.png",
+                "3.png",
+                "4.png",
+                "5.png",
+                "6.png",
+                "7.png",
+                "8.png",
+                "9.png",
+            ]
+            self.image = pg.image.load(
+                "images/Enemy_1/Dead/" + dead_enemy[int(self.frame_enemy)]
+            )
             self.image = pg.transform.scale(self.image, (170, 180))
 
 
@@ -437,17 +516,19 @@ class Enemy_2(Entity):
                 self.distance = 0
 
         if self.right_enemy:
-            file_ghost = 'right/'
+            file_ghost = "right/"
         elif self.left_enemy:
-            file_ghost = 'left/'
+            file_ghost = "left/"
 
         if self.go_enemy:
             self.frame_enemy += 0.12
             if self.frame_enemy > 5:
                 self.frame_enemy -= 5
 
-            run_ghost = ['0.png', '1.png', '2.png', '3.png', '4.png', '5.png', '6.png']
-            self.image = pg.image.load('images/Enemy_2/idle/' + file_ghost + run_ghost[int(self.frame_enemy)])
+            run_ghost = ["0.png", "1.png", "2.png", "3.png", "4.png", "5.png", "6.png"]
+            self.image = pg.image.load(
+                "images/Enemy_2/idle/" + file_ghost + run_ghost[int(self.frame_enemy)]
+            )
 
             self.image = pg.transform.smoothscale(self.image, (65, 70))
         else:
@@ -455,8 +536,10 @@ class Enemy_2(Entity):
                 return
             self.frame_enemy += 0.05
 
-            dead_ghost = ['0.png', '1.png', '2.png', '3.png', '4.png', '5.png','7.png']
-            self.image = pg.image.load('images/Enemy_2/dead/' + file_ghost + dead_ghost[int(self.frame_enemy)])
+            dead_ghost = ["0.png", "1.png", "2.png", "3.png", "4.png", "5.png", "7.png"]
+            self.image = pg.image.load(
+                "images/Enemy_2/dead/" + file_ghost + dead_ghost[int(self.frame_enemy)]
+            )
             self.image = pg.transform.scale(self.image, (150, 150))
 
 
@@ -490,18 +573,48 @@ ghost_4_y = 500
 ghost_5_x = 800
 ghost_5_y = 1000
 
-punkts = [(screen_width // 2, screen_height // 2, 'resume', (250, 30, 250), (250, 250, 30), 0),
-          (screen_width // 2, screen_height // 2 + 100, 'Level 1', (250, 30, 250), (250, 250, 30), 1),
-          (screen_width // 2, screen_height // 2 + 200, 'Level 2', (250, 30, 250), (250, 250, 30), 2),
-          (screen_width // 2, screen_height // 2 + 300, 'quit', (250, 30, 250), (250, 250, 30), 3)]
+punkts = [
+    (
+        screen_width // 2,
+        screen_height // 2,
+        "resume",
+        (250, 30, 250),
+        (250, 250, 30),
+        0,
+    ),
+    (
+        screen_width // 2,
+        screen_height // 2 + 100,
+        "Level 1",
+        (250, 30, 250),
+        (250, 250, 30),
+        1,
+    ),
+    (
+        screen_width // 2,
+        screen_height // 2 + 200,
+        "Level 2",
+        (250, 30, 250),
+        (250, 250, 30),
+        2,
+    ),
+    (
+        screen_width // 2,
+        screen_height // 2 + 300,
+        "quit",
+        (250, 30, 250),
+        (250, 250, 30),
+        3,
+    ),
+]
 
 game = Menu(punkts)
 game.menu()
 if game.currently_level == 1:
 
-    bg_image = pg.image.load('bg_images/Fading_Sky-Sunset.png')
+    bg_image = pg.image.load("bg_images/Fading_Sky-Sunset.png")
     bg_image = pg.transform.scale(bg_image, (screen_width, screen_height))
-    bg_image_2 = pg.image.load('bg_images/Fading_Sky-Sunset_2.png')
+    bg_image_2 = pg.image.load("bg_images/Fading_Sky-Sunset_2.png")
     bg_image_2 = pg.transform.scale(bg_image_2, (screen_width, screen_height))
 
     enemies.clear()
@@ -540,7 +653,7 @@ if game.currently_level == 1:
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     ]
     for y, row in enumerate(map_data):
         for x, cell in enumerate(row):
@@ -551,9 +664,9 @@ if game.currently_level == 1:
                 platforms.append(platform)
 elif game.currently_level == 2:
 
-    bg_image = pg.image.load('bg_images/Wispy_Sky-Night_1.png')
+    bg_image = pg.image.load("bg_images/Wispy_Sky-Night_1.png")
     bg_image = pg.transform.scale(bg_image, (screen_width, screen_height))
-    bg_image_2 = pg.image.load('bg_images/Wispy_Sky-Night_2.png')
+    bg_image_2 = pg.image.load("bg_images/Wispy_Sky-Night_2.png")
     bg_image_2 = pg.transform.scale(bg_image_2, (screen_width, screen_height))
 
     enemies.clear()
@@ -605,7 +718,7 @@ elif game.currently_level == 2:
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
         [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     ]
     for y, row in enumerate(map_data):
         for x, cell in enumerate(row):
@@ -628,10 +741,12 @@ while running:
             player.go = False
             if player.is_out and game.currently_level == 1:
 
-                bg_image = pg.image.load('bg_images/Fading_Sky-Sunset.png')
+                bg_image = pg.image.load("bg_images/Fading_Sky-Sunset.png")
                 bg_image = pg.transform.scale(bg_image, (screen_width, screen_height))
-                bg_image_2 = pg.image.load('bg_images/Fading_Sky-Sunset_2.png')
-                bg_image_2 = pg.transform.scale(bg_image_2, (screen_width, screen_height))
+                bg_image_2 = pg.image.load("bg_images/Fading_Sky-Sunset_2.png")
+                bg_image_2 = pg.transform.scale(
+                    bg_image_2, (screen_width, screen_height)
+                )
 
                 player.score = 0
                 player.respawn()
@@ -672,7 +787,7 @@ while running:
                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     [0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
                 ]
                 for y, row in enumerate(map_data):
                     for x, cell in enumerate(row):
@@ -683,10 +798,12 @@ while running:
                             platforms.append(platform)
 
             elif player.is_out and game.currently_level == 2:
-                bg_image = pg.image.load('bg_images/Wispy_Sky-Night_1.png')
+                bg_image = pg.image.load("bg_images/Wispy_Sky-Night_1.png")
                 bg_image = pg.transform.scale(bg_image, (screen_width, screen_height))
-                bg_image_2 = pg.image.load('bg_images/Wispy_Sky-Night_2.png')
-                bg_image_2 = pg.transform.scale(bg_image_2, (screen_width, screen_height))
+                bg_image_2 = pg.image.load("bg_images/Wispy_Sky-Night_2.png")
+                bg_image_2 = pg.transform.scale(
+                    bg_image_2, (screen_width, screen_height)
+                )
 
                 player.score = 0
                 player.respawn()
@@ -739,7 +856,7 @@ while running:
                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
                     [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
                 ]
                 for y, row in enumerate(map_data):
                     for x, cell in enumerate(row):
@@ -774,7 +891,11 @@ while running:
                 enemy.update()
                 enemy.draw(screen)
 
-            if not player.is_dead and not enemy.is_dead and player.rect.colliderect(enemy.rect):
+            if (
+                not player.is_dead
+                and not enemy.is_dead
+                and player.rect.colliderect(enemy.rect)
+            ):
                 if player.rect.bottom - player.y_speed < enemy.rect.top:
                     enemy.kill(enemy_dead_image)
 
@@ -792,5 +913,3 @@ while running:
     pg.display.flip()
     clock.tick(60)
 quit()
-
-
