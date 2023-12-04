@@ -61,13 +61,20 @@ stone_image = pg.transform.scale(stone_image, (50, 50))
 class Menu:
     def __init__(self, punkts=None):
         if punkts is None:
+            # 120, 140 - координаты пункта меню по умолчанию
+            # Punkt название пунка
+            # цвет пункта
+            # цвет выделенного пункта
+            # номер пункта
             punkts = [120, 140, "Punkt", (250, 30, 30), (250, 250, 30), 1]
         self.punkts = punkts
         self.currently_level = 0
 
     def render(self, surf, font_small, num_punkt):
         for i in self.punkts:
+            #проверка текущего номера пункта с номером переданного функцией
             if num_punkt == i[5]:
+                # закрашивается цветом активного элемента
                 surf.blit(font_small.render(i[2], 1, i[4]), (i[0], i[1]))
             else:
                 surf.blit(font_small.render(i[2], 1, i[3]), (i[0], i[1]))
@@ -82,9 +89,11 @@ class Menu:
 
             mp = pg.mouse.get_pos()
             for i in self.punkts:
+                # проверка нахождения курсора на пункте меню
                 if (
                     mp[0] > i[0] and mp[0] < i[0] + 155 and mp[1] > i[1] and mp[1] < i[1] + 50
                 ):
+                    # передаем пункт активного элемента
                     punkt = i[5]
             self.render(screen, font_menu, punkt)
 
@@ -105,7 +114,7 @@ class Menu:
                         else:
                             self.currently_level = 2
                         done = False
-
+                # напротив выбранного уровня отображается идентификатор "selected"
                     if punkt == 1:
                         done = False
                         punkts.append(
@@ -227,17 +236,21 @@ class Entity:
         self.right_enemy = True
 
     def handle_input(self):
+        # Проверяем пересечение с платформами
         for platform in platforms:
             if (
                 self.rect.colliderect(platform.rect)
                 and self.rect.bottom <= platform.rect.bottom
             ):
+                # Если игрок столкнулся с платформой и его нижняя граница меньше или равна нижней границе платформы,
+                # значит он находится на платформе и может прыгать
                 self.is_grounded = True
                 self.up = False
                 self.y_speed = 0
                 self.rect.bottom = platform.rect.top
 
     def kill(self, dead_image):
+        # Процесс убийства игрока
         self.image = dead_image
         self.is_dead = True
         self.x_speed = -self.x_speed
@@ -248,7 +261,7 @@ class Entity:
     def update(self):
         prev_x = self.rect.x
         prev_y = self.rect.y
-
+        # Проверяем пересечение с платформами
         for platform in platforms:
             if self.rect.colliderect(platform.rect):
                 self.rect.x = prev_x
